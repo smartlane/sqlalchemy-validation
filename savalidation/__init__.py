@@ -17,7 +17,7 @@ class ValidationError(Exception):
     """ issued when models are flushed but have validation errors """
     def __init__(self, invalid_instances):
         self.invalid_instances = invalid_instances
-        self.errors = {}
+        self.errors = dict()
         instance_errors = []
         for instance in invalid_instances:
             fields_with_errors = []
