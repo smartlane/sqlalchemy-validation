@@ -17,12 +17,14 @@ class ValidationError(Exception):
     """ issued when models are flushed but have validation errors """
     def __init__(self, invalid_instances):
         self.invalid_instances = invalid_instances
+        self.errors = {}
         instance_errors = []
         for instance in invalid_instances:
             fields_with_errors = []
             fields = instance._sav.errors
             model = str(instance)
             for fname, errors in six.iteritems(fields):
+                self.errors[fname] = errors
                 fields_with_errors.append('[%s: "%s"]' % (fname, '"; "'.join(errors)))
             instance_errors.append('%s %s' % (model, '; '.join(fields_with_errors)))
         msg = 'validation error(s): %s' % '; '.join(instance_errors)
